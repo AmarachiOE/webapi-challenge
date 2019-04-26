@@ -22,7 +22,7 @@ projectsRouter.get("/", (req, res) => {
 });
 
 // GET PROJECT ACTIONS =================
-projectsRouter.get("/:id", (req, res) => {
+projectsRouter.get("/:id/actions", (req, res) => {
   const projectId = req.params.id;
   projects
     .getProjectActions(projectId)
@@ -100,7 +100,7 @@ projectsRouter.delete("/:id", (req, res) => {
     .remove(projectId)
     .then(project => {
       if (project) {
-        res.status(204).end();
+        res.status(204).json(project);
       } else {
         res
           .status(400)
