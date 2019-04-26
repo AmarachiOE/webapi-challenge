@@ -3,18 +3,15 @@ const actions = require("./helpers/actionModel.js");
 
 const actionsRouter = express.Router();
 
+// url begins with /api/actions
+
 /*
 
-get,
-insert,
-update,
-remove,
+get, insert, update, remove,
 
-Post request needs middleware to checkout for character count (<= 128 characters)
+Post and Put request needs middleware to check for character count (<= 128 characters)
 
 */
-
-// url begins with /api/actions
 
 // CUSTOM MIDDLEWARE ==============
 function charCheck(req, res, next) {
@@ -90,11 +87,9 @@ actionsRouter.put("/:id", charCheck, (req, res) => {
         if (action) {
           res.status(200).json(action);
         } else {
-          res
-            .status(400)
-            .json({
-              error: "The action with the specified ID does not exist."
-            });
+          res.status(400).json({
+            error: "The action with the specified ID does not exist."
+          });
         }
       })
       .catch(err => {
