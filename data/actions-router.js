@@ -92,7 +92,9 @@ actionsRouter.put("/:id", charCheck, (req, res) => {
         } else {
           res
             .status(400)
-            .json({ error: "The action with the specified ID does not exist." });
+            .json({
+              error: "The action with the specified ID does not exist."
+            });
         }
       })
       .catch(err => {
@@ -102,6 +104,26 @@ actionsRouter.put("/:id", charCheck, (req, res) => {
       });
   }
 });
+
 // DELETE  =================
+actionsRouter.delete("/:id", (req, res) => {
+  const actionId = req.params.id;
+  actions
+    .remove(actionId)
+    .then(action => {
+      if (action) {
+        res.status(204).end();
+      } else {
+        res
+          .status(404)
+          .json({ error: "The action with the specified ID does not exist." });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: "The action could not be removed"
+      });
+    });
+});
 
 module.exports = actionsRouter;
