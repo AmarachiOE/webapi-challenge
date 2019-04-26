@@ -41,7 +41,30 @@ projectsRouter.get("/:id", (req, res) => {
         .json({ error: "The project's information could not be retrieved." });
     });
 });
+
 // POST  =================
+projectsRouter.post("/", (req, res) => {
+  const projectInfo = req.body;
+  if (!projectInfo || !projectInfo.name || !projectInfo.description) {
+    res
+      .status(400)
+      .json({
+        error:
+          "You must include a project with the required fields: name and description."
+      });
+  } else {
+    projects
+      .insert(projectInfo)
+      .then(project => {
+        res.status(201).json(project);
+      })
+      .catch(err => {
+        res.status(500).json({
+          error: "There was an error while saving the project to the database"
+        });
+      });
+  }
+});
 // PUT  =================
 // DELETE  =================
 
