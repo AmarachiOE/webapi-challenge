@@ -80,11 +80,9 @@ projectsRouter.put("/:id", (req, res) => {
         if (project) {
           res.status(200).json(user);
         } else {
-          res
-            .status(400)
-            .json({
-              error: "The project with the specified ID does not exist."
-            });
+          res.status(400).json({
+            error: "The project with the specified ID does not exist."
+          });
         }
       })
       .catch(err => {
@@ -94,6 +92,26 @@ projectsRouter.put("/:id", (req, res) => {
       });
   }
 });
+
 // DELETE  =================
+projectsRouter.delete("/:id", (req, res) => {
+  const projectId = req.params.id;
+  projects
+    .remove(projectId)
+    .then(project => {
+      if (project) {
+        res.status(204).end();
+      } else {
+        res
+          .status(400)
+          .json({ error: "The project with the specified ID does not exist." });
+      }
+    })
+    .catch(err => {
+      res.status(500).json({
+        error: "The project could not be removed"
+      });
+    });
+});
 
 module.exports = projectsRouter;
