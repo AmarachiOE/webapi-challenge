@@ -46,12 +46,10 @@ projectsRouter.get("/:id", (req, res) => {
 projectsRouter.post("/", (req, res) => {
   const projectInfo = req.body;
   if (!projectInfo || !projectInfo.name || !projectInfo.description) {
-    res
-      .status(400)
-      .json({
-        error:
-          "You must include a project with the required fields: name and description."
-      });
+    res.status(400).json({
+      error:
+        "You must include a project with the required fields: name and description."
+    });
   } else {
     projects
       .insert(projectInfo)
@@ -65,7 +63,37 @@ projectsRouter.post("/", (req, res) => {
       });
   }
 });
+
 // PUT  =================
+projectsRouter.put("/:id", (req, res) => {
+  const projectInfo = req.body;
+  const projectId = req.params.id;
+  if (!projectInfo || !projectInfo.name || !projectInfo.description) {
+    res.status(400).json({
+      error:
+        "You must include a project with the required fields: name and description."
+    });
+  } else {
+    projects
+      .update(projectId, projectInfo)
+      .then(project => {
+        if (project) {
+          res.status(200).json(user);
+        } else {
+          res
+            .status(400)
+            .json({
+              error: "The project with the specified ID does not exist."
+            });
+        }
+      })
+      .catch(err => {
+        res
+          .status(500)
+          .json({ error: "The project information could not be modified." });
+      });
+  }
+});
 // DELETE  =================
 
 module.exports = projectsRouter;
