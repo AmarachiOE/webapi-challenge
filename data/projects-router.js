@@ -12,7 +12,7 @@ projectsRouter.get("/", (req, res) => {
   projects
     .get()
     .then(data => {
-      res.status(200).json(data);
+      res.status(200).json({ goodbye: process.env.GOODBYE, data });
     })
     .catch(err => {
       res
